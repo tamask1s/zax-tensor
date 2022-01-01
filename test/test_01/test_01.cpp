@@ -5,7 +5,6 @@
 #include <vector>
 #include <algorithm>
 #include <typeinfo>
-#include <windows.h>
 using namespace std;
 #include "ZaxJsonParser.h"
 #include "ZaxTensor.h"
