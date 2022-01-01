@@ -1,0 +1,27 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: make
+      run: |
+        cd build/test_01/
+        make
+    - name: test_01
+      run: |
+        cd build/test_01/bin
+        ./testes > out_test_01
+        cat out_test_01
+        cmp out_test_01 ../../../test/test_01/template_01
+        cmp --silent out_test_01 ../../../test/test_01/template_01 && echo pass || exit 1
+     
