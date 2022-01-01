@@ -143,6 +143,7 @@ static inline void indent_new_line(char*& a_json, int& a_result, int a_deep)
 template<typename T>
 struct tensor_1d: public tensor_base<T>
 {
+    using tensor_base<T>::tensor_base;
 public:
     T* m_data;
     int d1;
@@ -313,11 +314,13 @@ public:
 template<typename T>
 struct tensor_2d: public tensor_base<T>
 {
+    using tensor_base<T>::tensor_base;
 public:
     T** m_data;
     int d1;
     int d2;
     int m_wrap_around_bytes;
+
     tensor_2d(int a_d1 = 0, int a_d2 = 0, T* a_data = 0, int a_wrap_around_bytes = false)
         :m_data(0),
          d1(0),
@@ -503,6 +506,7 @@ public:
 template<typename T>
 struct tensor_3d: public tensor_base<T>
 {
+    using tensor_base<T>::tensor_base;
 public:
     T*** m_data;
     int d1;
@@ -716,6 +720,7 @@ public:
 template<typename T>
 struct tensor_4d: public tensor_base<T>
 {
+    using tensor_base<T>::tensor_base;
 public:
     T**** m_data;
     int d1;
@@ -1264,11 +1269,13 @@ public:
 
 class array_of_tensor_f32: public array_of_tensors<tensor_f32>
 {
+    using array_of_tensors<tensor_f32>::array_of_tensors;
     OPERATOR_EQ()
 };
 
 class array_of_tensor_i32: public array_of_tensors<tensor_i32>
 {
+    using array_of_tensors<tensor_i32>::array_of_tensors;
     OPERATOR_EQ()
 };
 
