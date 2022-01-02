@@ -331,7 +331,7 @@ int main()
         [19.000000,20.000000,21.000000,22.000000,23.000000,24.000000]]]
        
 ```
-#### Example8 - create a view of a tensor:
+#### Example8 - create a 2d view of a 2d tensor with different shapes but same number of elements:
 
 ##### Code:
 
@@ -361,7 +361,36 @@ int main()
     [0.000000,1.000000,2.000000,99.000000,4.000000,5.000000]]
 
 ```
-#### Example9 - squeeze and unsqueeze:
+#### Example9 - create a 1d view of a 2d tensor with same number of elements:
+
+##### Code:
+
+```cpp
+
+    ZaxJsonParser::set_nr_indent(4);
+    tensor_f32 t_2d = R"([[0,1],
+                          [2,3],
+                          [4,5]])";
+    tensor_f32 t_2d_view;
+    t_2d_view.view({6}, t_2d);
+    (*t_2d_view.m_2d)[3] = 99;
+    std::cout << t_2d << std::endl << std::endl;
+    std::cout << t_2d_view;
+
+```
+##### Result:
+
+```cpp
+
+[
+    [0.000000,1.000000],
+    [2.000000,99.000000],
+    [4.000000,5.000000]]
+
+[0.000000,1.000000,2.000000,99.000000,4.000000,5.000000]
+
+```
+#### Example10 - squeeze and unsqueeze:
 
 ##### Code:
 
@@ -399,7 +428,7 @@ int main()
             [0.000000,0.000000,0.000000]]]]
 
 ```
-#### Example10 - array of tensors:
+#### Example11 - array of tensors:
 
 ##### Code:
 
@@ -424,7 +453,7 @@ int main()
     [-1.000000,0.000000,3.000000,0.000000,9.000000]]
 
 ```
-#### Example11 - serialization of a class containing tensors:
+#### Example12 - serialization of a class containing tensors:
 
 ##### Code:
 
