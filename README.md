@@ -273,6 +273,7 @@ int main()
             [21.000000,22.000000]],
         [
             [23.000000,24.000000]]]]
+```
 
 #### Example7 -reshape a 4d tensor to a 3d tensor with same number of elements:
 
