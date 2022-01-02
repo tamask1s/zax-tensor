@@ -423,3 +423,34 @@ int main()
     [-1.000000,0.000000,3.000000,0.000000,9.000000]]
 
 ```
+#### Example11 - serialization of a class containing tensors:
+
+##### Code:
+
+```cpp
+
+    struct some_class
+    {
+        tensor_f32 t_1d = R"([1,2,3])";
+        tensor_f32 t_2d = R"([[1,2], [3,4], [5,6]])";
+        ZAX_JSON_SERIALIZABLE(some_class, JSON_PROPERTY(t_1d), JSON_PROPERTY(t_2d))
+    };
+
+    ZaxJsonParser::set_nr_indent(4);
+    some_class some_obj;
+    std::cout << some_obj;
+
+```
+##### Result:
+
+```cpp
+
+{
+    "t_1d":[1.000000,2.000000,3.000000],
+    "t_2d":[
+        [1.000000,2.000000],
+        [3.000000,4.000000],
+        [5.000000,6.000000]]
+}
+
+```
