@@ -1010,6 +1010,16 @@ public:
     tensor_t()
     {}
 
+    tensor_t(const char* a_json)
+    {
+        zax_from_json(a_json);
+    }
+
+    tensor_t(const std::string& a_json)
+    {
+        zax_from_json(a_json.c_str());
+    }
+
     tensor_t(const tensor_t& a_rhs)
     {
         resize(a_rhs.shape(), a_rhs.data());
