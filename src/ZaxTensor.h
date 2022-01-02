@@ -49,16 +49,6 @@ public:
     tensor_base()
     {}
 
-    tensor_base(const char* a_json)
-    {
-        *this = a_json;
-    }
-
-    tensor_base(const std::string& a_json)
-    {
-        *this = a_json;
-    }
-
     virtual ~tensor_base()
     {}
 
@@ -143,24 +133,29 @@ static inline void indent_new_line(char*& a_json, int& a_result, int a_deep)
 template<typename T>
 struct tensor_1d: public tensor_base<T>
 {
-    using tensor_base<T>::tensor_base;
 public:
-    T* m_data;
-    int d1;
+    T* m_data = 0;
+    int d1 = 0;
     int m_wrap_around_bytes;
     tensor_1d(const tensor_1d& a_rhs)
-        :m_data(0),
-         d1(0)
     {
         *this = a_rhs;
     }
 
     tensor_1d(int a_size = 0, T* a_data = 0, int a_wrap_around_bytes = false)
-        :m_data(0),
-         d1(0),
-         m_wrap_around_bytes(a_wrap_around_bytes)
+         :m_wrap_around_bytes(a_wrap_around_bytes)
     {
         resize(a_size, a_data, a_wrap_around_bytes);
+    }
+
+    tensor_1d(const char* a_json)
+    {
+        zax_from_json(a_json);
+    }
+
+    tensor_1d(const std::string& a_json)
+    {
+        zax_from_json(a_json.c_str());
     }
 
     virtual ~tensor_1d()
@@ -314,28 +309,31 @@ public:
 template<typename T>
 struct tensor_2d: public tensor_base<T>
 {
-    using tensor_base<T>::tensor_base;
 public:
-    T** m_data;
-    int d1;
-    int d2;
+    T** m_data = 0;
+    int d1 = 0;
+    int d2 = 0;
     int m_wrap_around_bytes;
 
     tensor_2d(int a_d1 = 0, int a_d2 = 0, T* a_data = 0, int a_wrap_around_bytes = false)
-        :m_data(0),
-         d1(0),
-         d2(0),
-         m_wrap_around_bytes(a_wrap_around_bytes)
+         :m_wrap_around_bytes(a_wrap_around_bytes)
     {
         resize(a_d1, a_d2, a_data, a_wrap_around_bytes);
     }
 
     tensor_2d(const tensor_2d& a_rhs)
-        :m_data(0),
-         d1(0),
-         d2(0)
     {
         *this = a_rhs;
+    }
+
+    tensor_2d(const char* a_json)
+    {
+        zax_from_json(a_json);
+    }
+
+    tensor_2d(const std::string& a_json)
+    {
+        zax_from_json(a_json.c_str());
     }
 
     virtual ~tensor_2d()
@@ -506,30 +504,31 @@ public:
 template<typename T>
 struct tensor_3d: public tensor_base<T>
 {
-    using tensor_base<T>::tensor_base;
 public:
-    T*** m_data;
-    int d1;
-    int d2;
-    int d3;
+    T*** m_data = 0;
+    int d1 = 0;
+    int d2 = 0;
+    int d3 = 0;
     int m_wrap_around_bytes;
     tensor_3d(const tensor_3d& a_rhs)
-        :m_data(0),
-         d1(0),
-         d2(0),
-         d3(0)
     {
         *this = a_rhs;
     }
 
     tensor_3d(int a_d1 = 0, int a_d2 = 0, int a_d3 = 0, T* a_data = 0, int a_wrap_around_bytes = false)
-        :m_data(0),
-         d1(0),
-         d2(0),
-         d3(0),
-         m_wrap_around_bytes(a_wrap_around_bytes)
+         :m_wrap_around_bytes(a_wrap_around_bytes)
     {
         resize(a_d1, a_d2, a_d3, a_data, a_wrap_around_bytes);
+    }
+
+    tensor_3d(const char* a_json)
+    {
+        zax_from_json(a_json);
+    }
+
+    tensor_3d(const std::string& a_json)
+    {
+        zax_from_json(a_json.c_str());
     }
 
     virtual ~tensor_3d()
@@ -720,33 +719,32 @@ public:
 template<typename T>
 struct tensor_4d: public tensor_base<T>
 {
-    using tensor_base<T>::tensor_base;
 public:
-    T**** m_data;
-    int d1;
-    int d2;
-    int d3;
-    int d4;
+    T**** m_data = 0;
+    int d1 = 0;
+    int d2 = 0;
+    int d3 = 0;
+    int d4 = 0;
     int m_wrap_around_bytes;
     tensor_4d(const tensor_4d& a_rhs)
-        :m_data(0),
-         d1(0),
-         d2(0),
-         d3(0),
-         d4(0)
     {
         *this = a_rhs;
     }
 
     tensor_4d(int a_d1 = 0, int a_d2 = 0, int a_d3 = 0, int a_d4 = 0, T* a_data = 0, int a_wrap_around_bytes = false)
-        :m_data(0),
-         d1(0),
-         d2(0),
-         d3(0),
-         d4(0),
-         m_wrap_around_bytes(a_wrap_around_bytes)
+        :m_wrap_around_bytes(a_wrap_around_bytes)
     {
         resize(a_d1, a_d2, a_d3, a_d4, a_data, a_wrap_around_bytes);
+    }
+
+    tensor_4d(const char* a_json)
+    {
+        zax_from_json(a_json);
+    }
+
+    tensor_4d(const std::string& a_json)
+    {
+        zax_from_json(a_json.c_str());
     }
 
     virtual ~tensor_4d()
