@@ -999,9 +999,9 @@ class int_4d: public tensor_4d<int>
 template<typename T, typename T_1d, typename T_2d, typename T_3d, typename T_4d>
 class tensor_t: public tensor_base<T>
 {
-    using tensor_base<T>::numel;
     tensor_base<T>* current = 0;
 public:
+    using tensor_base<T>::numel;
     T_1d* m_1d = 0;
     T_2d* m_2d = 0;
     T_3d* m_3d = 0;
