@@ -36,11 +36,11 @@ public:
 
     virtual void detach_data() = 0;
 
-    virtual vector<int> shape() const = 0;
+    virtual std::vector<int> shape() const = 0;
 
-    virtual bool reshape(const vector<int>& a_sizes) = 0;
+    virtual bool reshape(const std::vector<int>& a_sizes) = 0;
 
-    virtual void resize(const vector<int>& a_sizes, T* a_data = 0, int a_wrap_around_bytes = false, bool a_reshaping = false) = 0;
+    virtual void resize(const std::vector<int>& a_sizes, T* a_data = 0, int a_wrap_around_bytes = false, bool a_reshaping = false) = 0;
 
     virtual void zax_from_json(const char* a_json, std::string* a_err_stream = 0) = 0;
 
@@ -52,10 +52,10 @@ public:
     virtual ~tensor_base()
     {}
 
-    virtual string shape_s() const
+    virtual std::string shape_s() const
     {
-        vector<int> sh = shape();
-        string res = "{";
+        std::vector<int> sh = shape();
+        std::string res = "{";
         if (!sh.empty())
         {
             for (unsigned int i = 0; i < sh.size() - 1; ++i)
@@ -68,7 +68,7 @@ public:
 
     virtual int numel() const
     {
-        vector<int> s = shape();
+        std::vector<int> s = shape();
         return std::accumulate(s.begin(), s.end(), 1, std::multiplies<int>());
     }
 
@@ -106,7 +106,7 @@ public:
     OPERATOR_EQ()
 };
 
-vector<int> get_dimensions(const char* a_json);
+std::vector<int> get_dimensions(const char* a_json);
 
 template<typename T> /** TODO: this could be done compile time I think */
 void get_type_c(char* a_type_c)
@@ -188,7 +188,7 @@ public:
         resize(0);
     }
 
-    virtual bool reshape(const vector<int>& a_sizes)
+    virtual bool reshape(const std::vector<int>& a_sizes)
     {
         bool res = false;
         if (a_sizes.size() == 1 && d1 == a_sizes[0])
@@ -196,7 +196,7 @@ public:
         return res;
     }
 
-    virtual void resize(const vector<int>& a_sizes, T* a_data = 0, int a_wrap_around_bytes = false, bool a_reshaping = false)
+    virtual void resize(const std::vector<int>& a_sizes, T* a_data = 0, int a_wrap_around_bytes = false, bool a_reshaping = false)
     {
         if (a_sizes.size() > 0)
             resize(a_sizes[0], a_data, a_wrap_around_bytes);
@@ -244,7 +244,7 @@ public:
         m_wrap_around_bytes = true;
     }
 
-    virtual vector<int> shape() const
+    virtual std::vector<int> shape() const
     {
         return {d1};
     }
@@ -366,7 +366,7 @@ public:
         return res;
     }
 
-    virtual bool reshape(const vector<int>& a_sizes)
+    virtual bool reshape(const std::vector<int>& a_sizes)
     {
         bool res = false;
         if (a_sizes.size() == 2)
@@ -374,7 +374,7 @@ public:
         return res;
     }
 
-    virtual void resize(const vector<int>& a_sizes, T* a_data = 0, int a_wrap_around_bytes = false, bool a_reshaping = false)
+    virtual void resize(const std::vector<int>& a_sizes, T* a_data = 0, int a_wrap_around_bytes = false, bool a_reshaping = false)
     {
         if (a_sizes.size() > 1)
             resize(a_sizes[0], a_sizes[1], a_data, a_wrap_around_bytes, a_reshaping);
@@ -430,7 +430,7 @@ public:
         m_wrap_around_bytes = true;
     }
 
-    virtual vector<int> shape() const
+    virtual std::vector<int> shape() const
     {
         return {d1, d2};
     }
@@ -561,7 +561,7 @@ public:
         return res;
     }
 
-    virtual bool reshape(const vector<int>& a_sizes)
+    virtual bool reshape(const std::vector<int>& a_sizes)
     {
         bool res = false;
         if (a_sizes.size() == 3)
@@ -569,7 +569,7 @@ public:
         return res;
     }
 
-    virtual void resize(const vector<int>& a_sizes, T* a_data = 0, int a_wrap_around_bytes = false, bool a_reshaping = false)
+    virtual void resize(const std::vector<int>& a_sizes, T* a_data = 0, int a_wrap_around_bytes = false, bool a_reshaping = false)
     {
         if (a_sizes.size() > 2)
             resize(a_sizes[0], a_sizes[1], a_sizes[2], a_data, a_wrap_around_bytes, a_reshaping);
@@ -637,7 +637,7 @@ public:
         m_wrap_around_bytes = true;
     }
 
-    virtual vector<int> shape() const
+    virtual std::vector<int> shape() const
     {
         return {d1, d2, d3};
     }
@@ -777,7 +777,7 @@ public:
         return res;
     }
 
-    virtual bool reshape(const vector<int>& a_sizes)
+    virtual bool reshape(const std::vector<int>& a_sizes)
     {
         bool res = false;
         if (a_sizes.size() == 4)
@@ -785,7 +785,7 @@ public:
         return res;
     }
 
-    virtual void resize(const vector<int>& a_sizes, T* a_data = 0, int a_wrap_around_bytes = false, bool a_reshaping = false)
+    virtual void resize(const std::vector<int>& a_sizes, T* a_data = 0, int a_wrap_around_bytes = false, bool a_reshaping = false)
     {
         if (a_sizes.size() > 3)
             resize(a_sizes[0], a_sizes[1], a_sizes[2], a_sizes[3], a_data, a_wrap_around_bytes, a_reshaping);
@@ -861,7 +861,7 @@ public:
         m_wrap_around_bytes = true;
     }
 
-    virtual vector<int> shape() const
+    virtual std::vector<int> shape() const
     {
         return {d1, d2, d3, d4};
     }
@@ -1015,7 +1015,7 @@ public:
         resize(a_rhs.shape(), a_rhs.data());
     }
 
-    tensor_t(const vector<int>& a_sizes, T* a_data = 0, int a_wrap_around_bytes = false)
+    tensor_t(const std::vector<int>& a_sizes, T* a_data = 0, int a_wrap_around_bytes = false)
     {
         resize(a_sizes, a_data, a_wrap_around_bytes);
     }
@@ -1025,7 +1025,7 @@ public:
         delete current;
     }
 
-    void create(const vector<int>& a_sizes, T* a_data = 0, int a_wrap_around_bytes = false)
+    void create(const std::vector<int>& a_sizes, T* a_data = 0, int a_wrap_around_bytes = false)
     {
         if (current)
             delete current;
@@ -1056,7 +1056,7 @@ public:
         return current->detach_data();
     }
 
-    virtual vector<int> shape() const
+    virtual std::vector<int> shape() const
     {
         if (current)
             return current->shape();
@@ -1066,7 +1066,7 @@ public:
 
     void reshape(int d1, int d2 = -1, int d3 = -1, int d4 = -1)
     {
-        vector<int> sizes = {d1};
+        std::vector<int> sizes = {d1};
         if (d2 != -1)
             sizes.push_back(d2);
         if (d3 != -1)
@@ -1076,7 +1076,7 @@ public:
         reshape(sizes);
     }
 
-    virtual bool reshape(const vector<int>& a_sizes)
+    virtual bool reshape(const std::vector<int>& a_sizes)
     {
         bool res = numel() == std::accumulate(a_sizes.begin(), a_sizes.end(), 1, std::multiplies<int>());
         if (res)
@@ -1086,7 +1086,7 @@ public:
 
     void resize(int d1, int d2 = -1, int d3 = -1, int d4 = -1)
     {
-        vector<int> sizes = {d1};
+        std::vector<int> sizes = {d1};
         if (d2 != -1)
             sizes.push_back(d2);
         if (d3 != -1)
@@ -1096,7 +1096,7 @@ public:
         resize(sizes);
     }
 
-    virtual void resize(const vector<int>& a_sizes, T* a_data = 0, int a_wrap_around_bytes = false, bool a_reshaping = false)
+    virtual void resize(const std::vector<int>& a_sizes, T* a_data = 0, int a_wrap_around_bytes = false, bool a_reshaping = false)
     {
         if (current)
         {
@@ -1108,7 +1108,7 @@ public:
                 {
                     T* dt = a_data ? a_data : data();
                     detach_data();
-                    vector<int> ones(a_sizes.size());
+                    std::vector<int> ones(a_sizes.size());
                     std::fill(ones.begin(), ones.end(), 1);
                     create(ones);
                     current->resize(a_sizes, dt, true, true);
@@ -1121,7 +1121,7 @@ public:
             create(a_sizes, a_data, a_wrap_around_bytes);
     }
 
-    bool view(const vector<int>& a_sizes, tensor_t& a_orig)
+    bool view(const std::vector<int>& a_sizes, tensor_t& a_orig)
     {
         bool res = a_orig.numel() == std::accumulate(a_sizes.begin(), a_sizes.end(), 1, std::multiplies<int>());
         if (res)
@@ -1133,7 +1133,7 @@ public:
     {
         if (success)
             *success = false;
-        vector<int> sh = shape();
+        std::vector<int> sh = shape();
         if (sh.size() > a_index_of_dimension)
             if (sh[a_index_of_dimension] == 1)
             {
@@ -1149,7 +1149,7 @@ public:
     {
         if (success)
             *success = false;
-        vector<int> sh = shape();
+        std::vector<int> sh = shape();
         if (sh.size() >= a_index_of_dimension)
         {
             sh.insert(sh.begin() + a_index_of_dimension, 1);
@@ -1203,7 +1203,7 @@ public:
 
     virtual void zax_from_json(const char* a_json, std::string* a_err_stream = 0)
     {
-        vector<int> sizes = get_dimensions(a_json);
+        std::vector<int> sizes = get_dimensions(a_json);
         if (shape().size() != sizes.size())
             create(sizes);
         current->zax_from_json(a_json, a_err_stream);
@@ -1230,7 +1230,7 @@ template<typename arr_t, typename arr_t1 = int, typename arr_t2 = int, typename 
 class array_of_tensors
 {
 public:
-    vector<arr_t> m_data;
+    std::vector<arr_t> m_data;
 
     arr_t& operator [](int a_idx)
     {
