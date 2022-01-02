@@ -15,16 +15,11 @@ Yet another tensor library in C++. It allows direct access to its underlying dat
 
 int main()
 {
+    ZaxJsonParser::set_nr_indent(4);
     tensor_f32 t_2d = R"([[81,90],
                        [0,2],
                        [-1,3]])";
-    std::cout << t_2d << std::endl << std::endl;
-
-    array_of_tensor_f32 aot;
-    aot = R"([[81,90,0],
-              [0,2],
-              [-1,0,3,0,9]])";
-    std::cout << aot << std::endl << std::endl;
+    std::cout << t_2d;
     return 0;
 }
 
@@ -33,11 +28,10 @@ int main()
 
 ```cpp
 
-[[81.000000,90.000000],
-[0.000000,2.000000],
-[-1.000000,3.000000]]
-
-[[81.000000,90.000000,0.000000], [0.000000,2.000000], [-1.000000,0.000000,3.000000,0.000000,9.000000]]
+[
+    [81.000000,90.000000],
+    [0.000000,2.000000],
+    [-1.000000,3.000000]]
 
 ```
 # examples:
