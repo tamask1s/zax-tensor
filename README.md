@@ -17,7 +17,7 @@ Yet another tensor library in C++. It allows direct access to its underlying dat
 
 int main()
 {
-    float_2d t_2d = R"([[81,90],
+    tensor_f32 t_2d = R"([[81,90],
                        [0,2],
                        [-1,3]])";
     std::cout << t_2d << std::endl << std::endl;
