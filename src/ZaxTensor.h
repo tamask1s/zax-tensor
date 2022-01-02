@@ -1015,7 +1015,7 @@ public:
         zax_from_json(a_json);
     }
 
-    tensor_t(const std::string& a_json)
+    tensor_t(std::string& a_json)
     {
         zax_from_json(a_json.c_str());
     }

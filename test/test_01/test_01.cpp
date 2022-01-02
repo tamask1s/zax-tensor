@@ -411,7 +411,9 @@ void tensor_example_19()
     cout << tensor_f32_.shape_s() << endl;
     tensor_f32_.squeeze(1);
     cout << "--------------------------------" << endl;
-    tensor_f32 tensor_f32_v;
+    tensor_f32 tensor_f32_v = R"([[81,90,0],
+                                  [0,2],
+                                  [-1,0,3,0,9]])";
     *tensor_f32_.m_3d[0][0][0] = 1;
     tensor_f32_v.view({1, 8}, tensor_f32_);
     cout << tensor_f32_v << endl;
@@ -490,3 +492,4 @@ int main()
     tensor_example_21();
     return 0;
 }
+
