@@ -4,8 +4,6 @@ Yet another tensor library in C++. It allows direct access to its underlying dat
 ```cpp
 
 #include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
 #include <typeinfo>
 #include <string>
 #include <string.h>
