@@ -169,9 +169,8 @@ int main()
     ZaxJsonParser::set_nr_indent(4);
     tensor_f32 _4d({2,2,2,3});
     float* b = _4d.data();
-    int c = 0;
-    for (int i = 0; i < _4d.numel(); ++i, ++c)
-        b[c] = c;
+    for (int i = 0; i < _4d.numel(); ++i)
+        b[i] = i;
     std::cout << _4d;
 
 ```
