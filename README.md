@@ -136,7 +136,7 @@ int main()
             for (int k = 0; k < _4d.m_4d->d3; ++k)
                 for (int l = 0; l < _4d.m_4d->d4; ++l)
                     b[i][j][k][l] = c++;
-    std::cout << _4d << std::endl << std::endl;
+    std::cout << _4d;
 
 ```
 ##### Result:
@@ -168,14 +168,11 @@ int main()
 
     ZaxJsonParser::set_nr_indent(4);
     tensor_f32 _4d({2,2,2,3});
-    float**** b = _4d.m_4d->m_data;
+    float* b = _4d.data();
     int c = 0;
-    for (int i = 0; i < _4d.m_4d->d1; ++i)
-        for (int j = 0; j < _4d.m_4d->d2; ++j)
-            for (int k = 0; k < _4d.m_4d->d3; ++k)
-                for (int l = 0; l < _4d.m_4d->d4; ++l)
-                    b[i][j][k][l] = c++;
-    std::cout << _4d << std::endl << std::endl;
+    for (int i = 0; i < _4d.numel(); ++i, ++c)
+        b[c] = c;
+    std::cout << _4d;
 
 ```
 ##### Result:
