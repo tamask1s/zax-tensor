@@ -129,7 +129,7 @@ int main()
 
     ZaxJsonParser::set_indent(4);
     tensor_f32 _4d({2,2,2,3});
-    float**** b = _4d.m_4d->m_data;
+    float**** b = _4d.data_4d();
     int c = 0;
     for (int i = 0; i < _4d.m_4d->d1; ++i)
         for (int j = 0; j < _4d.m_4d->d2; ++j)
