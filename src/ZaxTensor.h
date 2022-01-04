@@ -1061,6 +1061,22 @@ public:
         return current->data();
     }
 
+    virtual T** data_2d() const
+    {
+        return m_2d->m_data;
+    }
+
+
+    virtual T*** data_3d() const
+    {
+        return m_3d->m_data;
+    }
+
+    virtual T**** data_4d() const
+    {
+        return m_4d->m_data;
+    }
+
     virtual void detach_data()
     {
         return current->detach_data();

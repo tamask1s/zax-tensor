@@ -15,7 +15,7 @@ Yet another tensor library in C++. It allows direct access to its underlying dat
 
 int main()
 {
-    ZaxJsonParser::set_nr_indent(4);
+    ZaxJsonParser::set_indent(4);
     tensor_f32 t_2d = R"([[81,90],
                           [0,2],
                           [-1,3]])";
@@ -41,7 +41,7 @@ int main()
 
 ```cpp
 
-    ZaxJsonParser::set_nr_indent(4);
+    ZaxJsonParser::set_indent(4);
     tensor_f32 t_f32({2,3,4});
     std::cout << t_f32;
 
@@ -89,7 +89,7 @@ int main()
 
 ```cpp
 
-    ZaxJsonParser::set_nr_indent(4);
+    ZaxJsonParser::set_indent(4);
     tensor_f32 tensor_f32_({2,3,4});
     std::cout << tensor_f32_ << std::endl << std::endl;
     (*tensor_f32_.m_3d)[1][1][1] = 1;
@@ -127,7 +127,7 @@ int main()
 
 ```cpp
 
-    ZaxJsonParser::set_nr_indent(4);
+    ZaxJsonParser::set_indent(4);
     tensor_f32 _4d({2,2,2,3});
     float**** b = _4d.m_4d->m_data;
     int c = 0;
@@ -166,7 +166,7 @@ int main()
 
 ```cpp
 
-    ZaxJsonParser::set_nr_indent(4);
+    ZaxJsonParser::set_indent(4);
     tensor_f32 _4d({2,2,2,3});
     float* b = _4d.data();
     for (int i = 0; i < _4d.numel(); ++i)
@@ -201,7 +201,7 @@ int main()
 
 ```cpp
 
-    ZaxJsonParser::set_nr_indent(4);
+    ZaxJsonParser::set_indent(4);
     tensor_f32 _4d = R"([
     [
         [
@@ -277,7 +277,7 @@ int main()
 
 ```cpp
 
-    ZaxJsonParser::set_nr_indent(4);
+    ZaxJsonParser::set_indent(4);
     tensor_f32 _4d = R"([
     [
         [
@@ -333,7 +333,7 @@ int main()
 
 ```cpp
 
-    ZaxJsonParser::set_nr_indent(4);
+    ZaxJsonParser::set_indent(4);
     tensor_f32 t_2d = R"([[0,1],
                           [2,3],
                           [4,5]])";
@@ -363,7 +363,7 @@ int main()
 
 ```cpp
 
-    ZaxJsonParser::set_nr_indent(4);
+    ZaxJsonParser::set_indent(4);
     tensor_f32 t_2d = R"([[0,1],
                           [2,3],
                           [4,5]])";
@@ -392,7 +392,7 @@ int main()
 
 ```cpp
 
-    ZaxJsonParser::set_nr_indent(4);
+    ZaxJsonParser::set_indent(4);
     tensor_f32 t_f32({1,3,3});
     std::cout << t_f32 << std::endl << std::endl;
     t_f32.squeeze(0);
@@ -430,7 +430,7 @@ int main()
 
 ```cpp
 
-    ZaxJsonParser::set_nr_indent(4);
+    ZaxJsonParser::set_indent(4);
     array_of_tensor_f32 aot = R"([[81,90,0],
                                   [[0,2],[5,6],[7,8]],
                                   [-1,0,3,0,9]])";
@@ -462,7 +462,7 @@ int main()
         ZAX_JSON_SERIALIZABLE(some_class, JSON_PROPERTY(t_1d), JSON_PROPERTY(t_2d))
     };
 
-    ZaxJsonParser::set_nr_indent(4);
+    ZaxJsonParser::set_indent(4);
     some_class some_obj;
     std::cout << some_obj;
 

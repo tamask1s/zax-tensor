@@ -447,7 +447,7 @@ void tensor_example_21()
 
 int main()
 {
-    ZaxJsonParser::set_nr_indent(4);
+    ZaxJsonParser::set_indent(4);
     cout << "----------------------------------1----------------------------------" << endl;
     tensor_example_01();
     cout << "----------------------------------2----------------------------------" << endl;
