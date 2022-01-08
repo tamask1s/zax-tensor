@@ -16,7 +16,7 @@ Yet another tensor library in C++. It allows direct access to its underlying dat
 int main()
 {
     ZaxJsonParser::set_indent(4);
-    tensor_f32 t_2d = R"([[81,90],
+    tensor_i32 t_2d = R"([[81,90],
                           [0,2],
                           [-1,3]])";
     std::cout << t_2d;
@@ -29,9 +29,9 @@ int main()
 ```cpp
 
 [
-    [81.000000,90.000000],
-    [0.000000,2.000000],
-    [-1.000000,3.000000]]
+    [81,90],
+    [0,2],
+    [-1,3]]
 
 ```
 # examples:
@@ -91,8 +91,8 @@ int main()
 
     ZaxJsonParser::set_indent(4);
     tensor_i32 tensor_i32_({2,3,4});
-    std::cout << tensor_i32_ << std::endl << std::endl;
-    (*tensor_i32_.m_3d)[1][1][1] = 5;
+    std::cout << tensor_i32_ << std::endl << "------------------" << std::endl;
+    (*tensor_i32_.m_3d)[0][0][1] = 5;
     std::cout << tensor_i32_;
 
 ```
@@ -109,15 +109,15 @@ int main()
         [0,0,0,0],
         [0,0,0,0],
         [0,0,0,0]]]
-
+------------------
 [
     [
-        [0,0,0,0],
+        [0,5,0,0],
         [0,0,0,0],
         [0,0,0,0]],
     [
         [0,0,0,0],
-        [0,5,0,0],
+        [0,0,0,0],
         [0,0,0,0]]]
 
 ```
@@ -195,7 +195,7 @@ int main()
             [21.000000,22.000000,23.000000]]]]
 
 ```
-#### Example6 -reshape a 4d tensor to a 4d tensor with different dimensions:
+#### Example6 -reshape a 4d tensor to a 4d tensor with different dimensions (reshape will keep the original databuffer without reallocating it, only the tensor shell around it will be changed):
 
 ##### Code:
 
@@ -217,9 +217,9 @@ int main()
         [
             [19,20,21],
             [22,23,24]]]])";
-    std::cout << _4d << std::endl << std::endl;
+    std::cout << _4d << std::endl << "------------------" << std::endl;
     _4d.reshape(2,6,1,2);
-    std::cout << _4d << std::endl << std::endl;
+    std::cout << _4d;
 
 ```
 ##### Result:
@@ -241,7 +241,7 @@ int main()
         [
             [19.000000,20.000000,21.000000],
             [22.000000,23.000000,24.000000]]]]
-
+------------------
 [
     [
         [
@@ -271,14 +271,14 @@ int main()
             [23.000000,24.000000]]]]
 ```
 
-#### Example7 -reshape a 4d tensor to a 3d tensor with same number of elements:
+#### Example7 -reshape a 4d tensor to a 3d tensor with same number of elements (reshape will keep the original databuffer without reallocating it, only the tensor shell around it will be changed):
 
 ##### Code:
 
 ```cpp
 
     ZaxJsonParser::set_indent(4);
-    tensor_f32 _4d = R"([
+    tensor_i32 _4d = R"([
     [
         [
             [1,2,3],
@@ -293,9 +293,9 @@ int main()
         [
             [19,20,21],
             [22,23,24]]]])";
-    std::cout << _4d << std::endl << std::endl;
-    _4d.reshape(2,6,1,2);
-    std::cout << _4d << std::endl << std::endl;
+    std::cout << _4d << std::endl << "------------------" << std::endl;
+    _4d.reshape(2,2,6);
+    std::cout << _4d;
 
 ```
 ##### Result:
@@ -305,26 +305,26 @@ int main()
 [
     [
         [
-            [1.000000,2.000000,3.000000],
-            [4.000000,5.000000,6.000000]],
+            [1,2,3],
+            [4,5,6]],
         [
-            [7.000000,8.000000,9.000000],
-            [10.000000,11.000000,12.000000]]],
+            [7,8,9],
+            [10,11,12]]],
     [
         [
-            [13.000000,14.000000,15.000000],
-            [16.000000,17.000000,18.000000]],
+            [13,14,15],
+            [16,17,18]],
         [
-            [19.000000,20.000000,21.000000],
-            [22.000000,23.000000,24.000000]]]]
-
+            [19,20,21],
+            [22,23,24]]]]
+------------------
 [
     [
-        [1.000000,2.000000,3.000000,4.000000,5.000000,6.000000],
-        [7.000000,8.000000,9.000000,10.000000,11.000000,12.000000]],
+        [1,2,3,4,5,6],
+        [7,8,9,10,11,12]],
     [
-        [13.000000,14.000000,15.000000,16.000000,17.000000,18.000000],
-        [19.000000,20.000000,21.000000,22.000000,23.000000,24.000000]]]
+        [13,14,15,16,17,18],
+        [19,20,21,22,23,24]]]
        
 ```
 #### Example8 - create a 2d view of a 2d tensor with different shapes but same number of elements:
@@ -334,13 +334,14 @@ int main()
 ```cpp
 
     ZaxJsonParser::set_indent(4);
-    tensor_f32 t_2d = R"([[0,1],
+    tensor_i32 t_2d = R"([[0,1],
                           [2,3],
-                          [4,5]])";
-    tensor_f32 t_2d_view;
-    t_2d_view.view({1, 6}, t_2d);
+                          [4,5],
+                          [6,7]])";
+    tensor_i32 t_2d_view;
+    t_2d_view.view({2, 4}, t_2d);
     (*t_2d_view.m_2d)[0][3] = 99;
-    std::cout << t_2d << std::endl << std::endl;
+    std::cout << t_2d << std::endl << "------------------" << std::endl;
     std::cout << t_2d_view;
 
 ```
@@ -349,12 +350,14 @@ int main()
 ```cpp
 
 [
-    [0.000000,1.000000],
-    [2.000000,99.000000],
-    [4.000000,5.000000]]
-
+    [0,1],
+    [2,99],
+    [4,5],
+    [6,7]]
+------------------
 [
-    [0.000000,1.000000,2.000000,99.000000,4.000000,5.000000]]
+    [0,1,2,99],
+    [4,5,6,7]]
 
 ```
 #### Example9 - create a 1d view of a 2d tensor with same number of elements:
@@ -393,12 +396,12 @@ int main()
 ```cpp
 
     ZaxJsonParser::set_indent(4);
-    tensor_f32 t_f32({1,3,3});
-    std::cout << t_f32 << std::endl << std::endl;
-    t_f32.squeeze(0);
-    std::cout << t_f32 << std::endl << std::endl;
-    t_f32.unsqueeze(0).unsqueeze(0);
-    std::cout << t_f32 << std::endl << std::endl;
+    tensor_i32 t_i32({1,3,3});
+    std::cout << t_i32 << std::endl << "------------------" << std::endl;
+    t_i32.squeeze(0);
+    std::cout << t_i32 << std::endl << "------------------" << std::endl;
+    t_i32.unsqueeze(0).unsqueeze(0);
+    std::cout << t_i32;
 
 ```
 ##### Result:
@@ -407,21 +410,21 @@ int main()
 
 [
     [
-        [0.000000,0.000000,0.000000],
-        [0.000000,0.000000,0.000000],
-        [0.000000,0.000000,0.000000]]]
-
+        [0,0,0],
+        [0,0,0],
+        [0,0,0]]]
+------------------
 [
-    [0.000000,0.000000,0.000000],
-    [0.000000,0.000000,0.000000],
-    [0.000000,0.000000,0.000000]]
-
+    [0,0,0],
+    [0,0,0],
+    [0,0,0]]
+------------------
 [
     [
         [
-            [0.000000,0.000000,0.000000],
-            [0.000000,0.000000,0.000000],
-            [0.000000,0.000000,0.000000]]]]
+            [0,0,0],
+            [0,0,0],
+            [0,0,0]]]]
 
 ```
 #### Example11 - array of tensors:
@@ -457,8 +460,8 @@ int main()
 
     struct some_class
     {
-        tensor_f32 t_1d = R"([1,2,3])";
-        tensor_f32 t_2d = R"([[1,2], [3,4], [5,6]])";
+        tensor_i32 t_1d = R"([1,2,3])";
+        tensor_i32 t_2d = R"([[1,2], [3,4], [5,6]])";
         ZAX_JSON_SERIALIZABLE(some_class, JSON_PROPERTY(t_1d), JSON_PROPERTY(t_2d))
     };
 
@@ -472,11 +475,11 @@ int main()
 ```cpp
 
 {
-    "t_1d":[1.000000,2.000000,3.000000],
+    "t_1d":[1,2,3],
     "t_2d":[
-        [1.000000,2.000000],
-        [3.000000,4.000000],
-        [5.000000,6.000000]]
+        [1,2],
+        [3,4],
+        [5,6]]
 }
 
 ```
