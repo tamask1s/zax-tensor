@@ -56,11 +56,16 @@ public:
     {
         std::vector<int> sh = shape();
         std::string res = "{";
+        char tmp[16];
         if (!sh.empty())
         {
             for (unsigned int i = 0; i < sh.size() - 1; ++i)
-                res += std::to_string(sh[i]) + ",";
-            res += std::to_string(sh.back());
+            {
+                sprintf(tmp, "%d,", sh[i]);
+                res += tmp;
+            }
+            sprintf(tmp, "%d", sh.back());
+            res += tmp;
         }
         res += "}";
         return res;
@@ -143,7 +148,7 @@ public:
     }
 
     tensor_1d(int a_size = 0, T* a_data = 0, int a_wrap_around_bytes = false)
-         :m_wrap_around_bytes(a_wrap_around_bytes)
+        :m_wrap_around_bytes(a_wrap_around_bytes)
     {
         resize(a_size, a_data, a_wrap_around_bytes);
     }
@@ -316,7 +321,7 @@ public:
     int m_wrap_around_bytes;
 
     tensor_2d(int a_d1 = 0, int a_d2 = 0, T* a_data = 0, int a_wrap_around_bytes = false)
-         :m_wrap_around_bytes(a_wrap_around_bytes)
+        :m_wrap_around_bytes(a_wrap_around_bytes)
     {
         resize(a_d1, a_d2, a_data, a_wrap_around_bytes);
     }
@@ -516,7 +521,7 @@ public:
     }
 
     tensor_3d(int a_d1 = 0, int a_d2 = 0, int a_d3 = 0, T* a_data = 0, int a_wrap_around_bytes = false)
-         :m_wrap_around_bytes(a_wrap_around_bytes)
+        :m_wrap_around_bytes(a_wrap_around_bytes)
     {
         resize(a_d1, a_d2, a_d3, a_data, a_wrap_around_bytes);
     }
@@ -1065,7 +1070,6 @@ public:
     {
         return m_2d->m_data;
     }
-
 
     virtual T*** data_3d() const
     {
