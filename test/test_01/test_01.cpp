@@ -6,6 +6,8 @@
 #include <algorithm>
 #include <typeinfo>
 #include <cstring>
+#include <stdio.h>
+#include <cstdlib>
 using namespace std;
 #include "ZaxJsonParser.h"
 #include "ZaxTensor.h"
