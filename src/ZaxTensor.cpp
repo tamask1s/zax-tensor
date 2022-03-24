@@ -20,6 +20,8 @@
 #include <map>
 #include <vector>
 #include <numeric>
+#include <stdio.h>
+#include <cstdlib>
 
 using namespace std;
 
