@@ -170,7 +170,7 @@ public:
 
     virtual tensor_1d& operator = (const tensor_1d& a_rhs)
     {
-        resize(a_rhs.d1, ((tensor_1d*)&a_rhs)->data());
+        resize(a_rhs.d1, a_rhs.data());
         return *this;
     }
 
@@ -348,7 +348,7 @@ public:
 
     virtual tensor_2d& operator = (const tensor_2d& a_rhs)
     {
-        resize(a_rhs.d1, a_rhs.d2, ((tensor_2d*)&a_rhs)->numel() ? ((tensor_2d*)&a_rhs)->data() : 0);
+        resize(a_rhs.d1, a_rhs.d2, a_rhs.numel() ? a_rhs.data() : 0);
         return *this;
     }
 
@@ -543,7 +543,7 @@ public:
 
     virtual tensor_3d& operator = (const tensor_3d& a_rhs)
     {
-        resize(a_rhs.d1, a_rhs.d2, a_rhs.d3, ((tensor_3d*)&a_rhs)->numel() ? ((tensor_3d*)&a_rhs)->data() : 0);
+        resize(a_rhs.d1, a_rhs.d2, a_rhs.d3, a_rhs.numel() ? a_rhs.data() : 0);
         return *this;
     }
 
@@ -759,7 +759,7 @@ public:
 
     virtual tensor_4d& operator = (const tensor_4d& a_rhs)
     {
-        resize(a_rhs.d1, a_rhs.d2, a_rhs.d3, a_rhs.d4, ((tensor_4d*)&a_rhs)->numel() ? ((tensor_4d*)&a_rhs)->data() : 0);
+        resize(a_rhs.d1, a_rhs.d2, a_rhs.d3, a_rhs.d4, a_rhs.numel() ? a_rhs.data() : 0);
         return *this;
     }
 
