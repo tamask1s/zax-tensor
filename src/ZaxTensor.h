@@ -113,16 +113,37 @@ public:
 
 std::vector<int> get_dimensions(const char* a_json);
 
-template<typename T> /** TODO: this could be done compile time I think */
-void get_type_c(char* a_type_c)
+template<typename T>
+inline void get_type_c(char* a_type_c);
+
+template<>
+inline void get_type_c<int>(char* a_type_c)
 {
     strcpy(a_type_c, "%d,");
-    if (typeid(T) == typeid(unsigned int))
-        strcpy(a_type_c, "%u,");
-    else if (typeid(T) == typeid(float) || typeid(T) == typeid(double))
-        strcpy(a_type_c, "%f,");
-    else if (typeid(T) == typeid(char) || typeid(T) == typeid(unsigned char))
-        strcpy(a_type_c, "%c,");
+}
+
+template<>
+inline void get_type_c<unsigned int>(char* a_type_c)
+{
+    strcpy(a_type_c, "%u,");
+}
+
+template<>
+inline void get_type_c<unsigned short int>(char* a_type_c)
+{
+    strcpy(a_type_c, "%hu,");
+}
+
+template<>
+inline void get_type_c<unsigned char>(char* a_type_c)
+{
+    strcpy(a_type_c, "%d,");
+}
+
+template<>
+inline void get_type_c<float>(char* a_type_c)
+{
+    strcpy(a_type_c, "%f,");
 }
 
 static inline void indent_new_line(char*& a_json, int& a_result, int a_deep)
@@ -292,15 +313,8 @@ public:
         a_json[0] = 0;
         strcat(a_json, "[");
         int offset = 1;
-        if (typeid(T) != typeid(float))
-            for (int i = 0; i < d1; ++i)
-                offset += snprintf(a_json + offset, a_alloc_size, typed, m_data[i]);
-        else
-            for (int i = 0; i < d1; ++i)
-            {
-                double toprint = m_data[i];
-                offset += snprintf(a_json + offset, a_alloc_size, typed, toprint);
-            }
+        for (int i = 0; i < d1; ++i)
+            offset += snprintf(a_json + offset, a_alloc_size, typed, m_data[i]);
         sprintf(a_json + --offset, "%s", "]");
         if (!(offset))
         {
@@ -485,15 +499,8 @@ public:
         for (int i = 0; i < d1; ++i)
         {
             indent_new_line(a_json, offset, a_deep + 1);
-            if (typeid(T) != typeid(float))
-                for (int j = 0; j < d2; ++j)
-                    offset += snprintf(a_json + offset, a_alloc_size, typed, m_data[i][j]);
-            else
-                for (int j = 0; j < d2; ++j)
-                {
-                    double toprint = m_data[i][j];
-                    offset += snprintf(a_json + offset, a_alloc_size, typed, toprint);
-                }
+            for (int j = 0; j < d2; ++j)
+                offset += snprintf(a_json + offset, a_alloc_size, typed, m_data[i][j]);
             offset += sprintf(a_json + --offset, "%s", "],");
         }
         sprintf(a_json + --offset, "%s", "]");
@@ -543,7 +550,7 @@ public:
 
     virtual tensor_3d& operator = (const tensor_3d& a_rhs)
     {
-        resize(a_rhs.d1, a_rhs.d2, a_rhs.d3, a_rhs.numel() ? a_rhs.data() : 0);
+        resize(a_rhs.d1, a_rhs.d2, a_rhs.d3, ((tensor_3d*)&a_rhs)->numel() ? ((tensor_3d*)&a_rhs)->data() : 0);
         return *this;
     }
 
@@ -698,15 +705,8 @@ public:
             for (int j = 0; j < d2; ++j)
             {
                 indent_new_line(a_json, offset, a_deep + 2);
-                if (typeid(T) != typeid(float))
-                    for (int k = 0; k < d3; ++k)
-                        offset += snprintf(a_json + offset, a_alloc_size, typed, m_data[i][j][k]);
-                else
-                    for (int k = 0; k < d3; ++k)
-                    {
-                        double toprint = m_data[i][j][k];
-                        offset += snprintf(a_json + offset, a_alloc_size, typed, toprint);
-                    }
+                for (int k = 0; k < d3; ++k)
+                    offset += snprintf(a_json + offset, a_alloc_size, typed, m_data[i][j][k]);
                 offset += sprintf(a_json + --offset, "%s", "],");
             }
             offset += sprintf(a_json + --offset, "%s", "],");
@@ -759,7 +759,7 @@ public:
 
     virtual tensor_4d& operator = (const tensor_4d& a_rhs)
     {
-        resize(a_rhs.d1, a_rhs.d2, a_rhs.d3, a_rhs.d4, a_rhs.numel() ? a_rhs.data() : 0);
+        resize(a_rhs.d1, a_rhs.d2, a_rhs.d3, a_rhs.d4, ((tensor_4d*)&a_rhs)->numel() ? ((tensor_4d*)&a_rhs)->data() : 0);
         return *this;
     }
 
@@ -928,15 +928,8 @@ public:
                 for (int k = 0; k < d3; ++k)
                 {
                     indent_new_line(a_json, offset, a_deep + 3);
-                    if (typeid(T) != typeid(float))
-                        for (int l = 0; l < d4; ++l)
-                            offset += snprintf(a_json + offset, a_alloc_size, typed, m_data[i][j][k][l]);
-                    else
-                        for (int l = 0; l < d4; ++l)
-                        {
-                            double toprint = m_data[i][j][k][l];
-                            offset += snprintf(a_json + offset, a_alloc_size, typed, toprint);
-                        }
+                    for (int l = 0; l < d4; ++l)
+                        offset += snprintf(a_json + offset, a_alloc_size, typed, m_data[i][j][k][l]);
                     offset += sprintf(a_json + --offset, "%s", "],");
                 }
                 offset += sprintf(a_json + --offset, "%s", "],");
@@ -998,6 +991,54 @@ class int_3d: public tensor_3d<int>
 class int_4d: public tensor_4d<int>
 {
     using tensor_4d<int>::tensor_4d;
+    OPERATOR_EQ()
+};
+
+class ui8_1d: public tensor_1d<unsigned char>
+{
+    using tensor_1d<unsigned char>::tensor_1d;
+    OPERATOR_EQ()
+};
+
+class ui8_2d: public tensor_2d<unsigned char>
+{
+    using tensor_2d<unsigned char>::tensor_2d;
+    OPERATOR_EQ()
+};
+
+class ui8_3d: public tensor_3d<unsigned char>
+{
+    using tensor_3d<unsigned char>::tensor_3d;
+    OPERATOR_EQ()
+};
+
+class ui8_4d: public tensor_4d<unsigned char>
+{
+    using tensor_4d<unsigned char>::tensor_4d;
+    OPERATOR_EQ()
+};
+
+class ui16_1d: public tensor_1d<unsigned short>
+{
+    using tensor_1d<unsigned short>::tensor_1d;
+    OPERATOR_EQ()
+};
+
+class ui16_2d: public tensor_2d<unsigned short>
+{
+    using tensor_2d<unsigned short>::tensor_2d;
+    OPERATOR_EQ()
+};
+
+class ui16_3d: public tensor_3d<unsigned short>
+{
+    using tensor_3d<unsigned short>::tensor_3d;
+    OPERATOR_EQ()
+};
+
+class ui16_4d: public tensor_4d<unsigned short>
+{
+    using tensor_4d<unsigned short>::tensor_4d;
     OPERATOR_EQ()
 };
 
@@ -1063,7 +1104,10 @@ public:
 
     virtual T* data() const
     {
-        return current->data();
+        if (!current)
+            return 0;
+        else
+            return current->data();
     }
 
     virtual T** data_2d() const
@@ -1083,7 +1127,8 @@ public:
 
     virtual void detach_data()
     {
-        return current->detach_data();
+        if (current)
+            current->detach_data();
     }
 
     virtual std::vector<int> shape() const
@@ -1255,6 +1300,8 @@ public:
 
 #define tensor_f32 tensor_t<float, float_1d, float_2d, float_3d, float_4d>
 #define tensor_i32 tensor_t<int, int_1d, int_2d, int_3d, int_4d>
+#define tensor_ui8 tensor_t<unsigned char, ui8_1d, ui8_2d, ui8_3d, ui8_4d>
+#define tensor_ui16 tensor_t<unsigned short, ui16_1d, ui16_2d, ui16_3d, ui16_4d>
 
 template<typename arr_t, typename arr_t1 = int, typename arr_t2 = int, typename arr_t3 = int>
 class array_of_tensors
@@ -1304,6 +1351,18 @@ class array_of_tensor_f32: public array_of_tensors<tensor_f32>
 class array_of_tensor_i32: public array_of_tensors<tensor_i32>
 {
     using array_of_tensors<tensor_i32>::array_of_tensors;
+    OPERATOR_EQ()
+};
+
+class array_of_tensor_ui8: public array_of_tensors<tensor_ui8>
+{
+    using array_of_tensors<tensor_ui8>::array_of_tensors;
+    OPERATOR_EQ()
+};
+
+class array_of_tensor_ui16: public array_of_tensors<tensor_ui16>
+{
+    using array_of_tensors<tensor_ui16>::array_of_tensors;
     OPERATOR_EQ()
 };
 
