@@ -46,6 +46,8 @@ public:
 
     virtual int zax_to_json(char* a_json, int a_alloc_size, int a_deep) const = 0;
 
+    virtual void fill(const T& a_val) = 0;
+
     tensor_base()
     {}
 
@@ -275,7 +277,7 @@ public:
         return {d1};
     }
 
-    void Fill(const T& a_val)
+    virtual void fill(const T& a_val)
     {
         for (int j = 0; j < d1; j++)
             m_data[j] = a_val;
@@ -454,7 +456,7 @@ public:
         return {d1, d2};
     }
 
-    void Fill(const T& a_val)
+    virtual void fill(const T& a_val)
     {
         for (int i = 0; i < d1; ++i)
             for (int j = 0; j < d2; ++j)
@@ -654,7 +656,7 @@ public:
         return {d1, d2, d3};
     }
 
-    void Fill(const T& a_val)
+    virtual void fill(const T& a_val)
     {
         for (int i = 0; i < d1; i++)
             for (int j = 0; j < d2; j++)
@@ -871,7 +873,7 @@ public:
         return {d1, d2, d3, d4};
     }
 
-    void Fill(const T& a_val)
+    virtual void fill(const T& a_val)
     {
         for (int i = 0; i < d1; i++)
             for (int j = 0; j < d2; j++)
@@ -1108,6 +1110,11 @@ public:
             return 0;
         else
             return current->data();
+    }
+
+    virtual void fill(const T& a_val)
+    {
+        current->fill(a_val);
     }
 
     virtual T** data_2d() const
