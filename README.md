@@ -474,6 +474,8 @@ int main()
 
 ```
 #### Example13 - Arduino example:
+
+##### Code:
 ```cpp
 #include <cstring>
 #include <stdio.h>
@@ -553,4 +555,41 @@ void setup(void)
 void loop(void)
 {}
 
+```
+##### Result:
+
+```cpp
+Initializing and printing an object of 'some_class':
+{"x":7, "name":"new name"}
+
+Using 'zax_to_json()' as serialization method:
+{"x":7, "name":"new name"}
+
+Printing JSON in a 'char some_json_cstr[200]':
+{"x":7, "name":"new name"}
+
+Printing an unsigned char matrix (value of '-1' is displad as '255'):
+[
+[8,90],
+[0,2],
+[255,3]]
+
+Printing an int matrix:
+[
+[32,90],
+[0,2],
+[-1,3]]
+
+Printing a float matrix:
+[
+[32.000000,90.000000],
+[0.000000,2.000000],
+[-1.000000,3.000000]]
+
+Creating a matrix using an external buffer. Filling the mx, and setting element values in different ways:
+[
+[12,0,0,0,0,0,0,0],
+[0,34,0,0,0,0,0,0],
+[0,0,56,0,0,0,0,0],
+[0,0,0,78,0,0,0,0]]
 ```
