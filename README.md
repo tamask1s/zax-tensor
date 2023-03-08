@@ -538,7 +538,7 @@ void setup(void)
     std::string some_json4 = t_2d_f32;
     Serial.println(some_json4.c_str());
     
-    Serial.println();Serial.println("Creating a matrix using an external buffer. Filling the mx, and setting element values in different ways:");
+    Serial.println();Serial.println("Creating mx using external buff. Filling the mx, and setting element values in different ways:");
     tensor_ui16 t_2d_ui16;
     uint16_t* backBuffer16 = (uint16_t*) malloc(4 * 8 * 2);
     t_2d_ui16.create({4, 8}, backBuffer16, true);
@@ -586,7 +586,7 @@ Printing a float matrix:
 [0.000000,2.000000],
 [-1.000000,3.000000]]
 
-Creating a matrix using an external buffer. Filling the mx, and setting element values in different ways:
+Creating mx using external buff. Filling the mx, and setting element values in different ways:
 [
 [12,0,0,0,0,0,0,0],
 [0,34,0,0,0,0,0,0],
