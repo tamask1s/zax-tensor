@@ -473,3 +473,84 @@ int main()
 }
 
 ```
+#### Example13 - Arduino example:
+```cpp
+#include <cstring>
+#include <stdio.h>
+#include <string>
+#include <map>
+#include <random>
+#include <vector>
+#include <algorithm>
+#include <typeinfo>
+#include <math.h>
+#include "src/ZaxJsonParser.h"
+#include "src/ZaxTensor.h"
+
+struct some_class
+{
+    int x = 9;
+    std::string name = "some name";
+    ZAX_JSON_SERIALIZABLE(some_class, JSON_PROPERTY(x), JSON_PROPERTY(name))
+};
+
+void setup(void)
+{
+    Serial.begin(115200);
+    delay(1000);
+    ZaxJsonParser::set_initial_alloc_size(5000);
+
+    Serial.println();Serial.println("Initializing and printing an object of 'some_class':");
+    some_class some_obj = R"({"x": 7, "name": "new name"})";
+    std::string some_json = some_obj;
+    Serial.println(some_json.c_str());
+
+    Serial.println();Serial.println("Using 'zax_to_json()' as serialization method:");
+    some_json = some_obj.zax_to_json();
+    Serial.println(some_json.c_str());
+    
+    Serial.println();Serial.println("Printing JSON in a 'char some_json_cstr[200]':");
+    char some_json_cstr[200];
+    some_obj.zax_to_json(some_json_cstr, 200);
+    Serial.println(some_json_cstr);
+
+    Serial.println();Serial.println("Printing an unsigned char matrix (value of '-1' is displad as '255'):");
+    tensor_ui8 t_2d_i8 = R"([[8,90],
+                             [0,2],
+                             [-1,3]])";
+    // some_json = t_2d_i8; - this won't work for now
+    std::string some_json2 = t_2d_i8;
+    Serial.println(some_json2.c_str());
+    
+    Serial.println();Serial.println("Printing an int matrix:");
+    tensor_i32 t_2d_i32 = R"([[32,90],
+                              [0,2],
+                              [-1,3]])";
+    std::string some_json3 = t_2d_i32;
+    Serial.println(some_json3.c_str());
+    
+    Serial.println();Serial.println("Printing a float matrix:");
+    tensor_f32 t_2d_f32 = R"([[32,90],
+                              [0,2],
+                              [-1,3]])";
+    std::string some_json4 = t_2d_f32;
+    Serial.println(some_json4.c_str());
+    
+    Serial.println();Serial.println("Creating a matrix using an external buffer. Filling the mx, and setting element values in different ways:");
+    tensor_ui16 t_2d_ui16;
+    uint16_t* backBuffer16 = (uint16_t*) malloc(4 * 8 * 2);
+    t_2d_ui16.create({4, 8}, backBuffer16, true);
+    t_2d_ui16.fill(0);
+    uint16_t** screen = t_2d_ui16.data_2d();
+    screen[0][0] = 12;
+    backBuffer16[1 * 8 + 1] = 34;
+    t_2d_ui16(2, 2) = 56;
+    (*t_2d_ui16.m_2d)[3][3] = 78;
+    std::string t_2d_ui16_str = t_2d_ui16;
+    Serial.println(t_2d_ui16_str.c_str());
+}
+
+void loop(void)
+{}
+
+```
